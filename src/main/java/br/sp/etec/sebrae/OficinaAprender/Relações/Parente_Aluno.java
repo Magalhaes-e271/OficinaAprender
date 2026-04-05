@@ -1,7 +1,7 @@
 package br.sp.etec.sebrae.OficinaAprender.Relações;
 
 import br.sp.etec.sebrae.OficinaAprender.entities.Aluno;
-import br.sp.etec.sebrae.OficinaAprender.entities.Profissional;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,13 +13,13 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfissionalAluno {
+public class Parente_Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @ManyToOne
-    private Profissional profissional;
+    private Parente_Aluno parenteAluno;
     @ManyToOne
     private Aluno aluno;
 }

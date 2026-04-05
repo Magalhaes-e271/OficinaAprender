@@ -3,6 +3,7 @@ package br.sp.etec.sebrae.OficinaAprender.Service;
 import br.sp.etec.sebrae.OficinaAprender.Repository.AlunoRepository;
 import br.sp.etec.sebrae.OficinaAprender.Repository.ProfissionalRepository;
 import br.sp.etec.sebrae.OficinaAprender.entities.Profissional;
+import br.sp.etec.sebrae.OficinaAprender.entities.Usuario.Usuario;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,10 +21,13 @@ public class ProfissionalService {
     public Optional<Profissional> findById(Long id) {
         return profissionalRepository.findById(id);
     }
-    // Cadastrar Profissional
-    public Profissional cadastroProfissional(Profissional Pro) {
-       return profissionalRepository.save(Pro);
-    }
+//    // Criar Profissional
+////    public Profissional criarProfissional(ProfissionalDTO pro) {
+////        Usuario usuario = new Usuario();
+////        usuario.setEmail(pro.get);
+//
+//    return profissionalRepository.save(Pro);
+//    }
 
 
 }

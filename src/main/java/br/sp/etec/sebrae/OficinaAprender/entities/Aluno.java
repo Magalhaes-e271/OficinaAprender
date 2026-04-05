@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
 
 @Entity
@@ -19,7 +18,7 @@ public class Aluno {
     Long id;
     String nome;
 
-    @OneToMany(mappedBy = "Aluno")
+    @OneToMany(mappedBy = "aluno")
     List<Publicacao> publicacoes;
 
 }

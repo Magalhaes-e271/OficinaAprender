@@ -25,16 +25,16 @@ public class ProfissionalController {
     Optional<Profissional> profissional = profissionalService.findById(id);
     return ResponseEntity.ok().body(profissional.get());
     }
-
-    @PostMapping
-    public ResponseEntity<?> save(@RequestBody Profissional Pro) {
-       try {
-
-           Profissional NovoProfissional = profissionalService.cadastroProfissional(Pro);
-           return ResponseEntity.ok(NovoProfissional);
-       }catch (Exception e){
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar: " + e.getMessage());
-         }
-     }
+//
+//    @PostMapping
+//    public ResponseEntity<?> save(@RequestBody Profissional Pro) {
+//       try {
+//
+//           Profissional NovoProfissional = profissionalService.cProfissional(Pro);
+//           return ResponseEntity.ok(NovoProfissional);
+//       }catch (Exception e){
+//           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao cadastrar: " + e.getMessage());
+//         }
+//     }
 }
 

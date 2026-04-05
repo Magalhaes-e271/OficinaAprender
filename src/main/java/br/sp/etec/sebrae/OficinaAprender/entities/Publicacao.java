@@ -19,7 +19,9 @@ public class Publicacao {
     private String descricao;
 
     @ManyToOne
+    @JoinColumn(name = "id_profissional")
     private Profissional profissional;
     @ManyToOne
+    @JoinColumn(name = "id_aluno")
     private Aluno aluno;
 }
