@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar</title>
+    <link rel="stylesheet" href="./styles.css" type="text/css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <a href="./index.html"><li>Home</li></a>
+            <a href="./entrar.html"><li>Entrar</li></a>
+            <a href="./cadastrar.html"><li>Cadastrar</li></a>
+            <a href=""><li>Sla</li></a>
+        </ul>
+    </nav>
+
+    <section>
+        <form id="form_cadastro">
+            <label class="campo">
+                <input type="text" name="nome" id="nome" placeholder=" ">
+                <span>Nome</span>
+                <small id="erroNome" class="erro"></small>
+            </label>
+
+            <label class="campo">
+                <input type="email" name="email" id="email" placeholder=" ">
+                <span>E-mail</span>
+                <small id="erroEmail" class="erro"></small>
+            </label>
+
+            <label class="campo">
+                <input type="password" name="senha" id="senha" placeholder=" ">
+                <span>Senha</span>
+                <small id="erroSenha" class="erro"></small>
+            </label>
+
+
+            <label class="campo">
+                <input type="password" name="confirmarSenha" id="confirmarSenha" placeholder=" ">
+                <span>Confirmar Senha</span>
+                <small id="erroConfirmarSenha" class="erro"></small>
+            </label>
+
+        <div class="linha-checkbox">
+            <input type="checkbox" id="verSenhas">
+            <label for="verSenhas">Mostrar senhas</label>
+        </div>
+
+            <label>
+                <select name="ocupacao" id="ocupacao">
+                    <option value="" disabled selected>Ocupação</option>
+                    <option value="fonoaudiologo">Fonoaudiólogo(a)</option>
+                    <option value="professor">Professor(a)</option>
+                    <option value="psicologo">Psicólogo(a)</option>
+                    <option value="Familia">Familia</option>
+                    <option value="outro">Outro</option>
+                </select><br>
+                <small id="erroOcupacao" class="erro"></small>
+            </label><br>
+
+
+            <button type="submit">Cadastrar</button>
+            <small id="mensagemGeral" class="erro"></small>
+        </form>
+    </section>
+
+    <script src="./script.js"></script>
+</body>
+</html>
