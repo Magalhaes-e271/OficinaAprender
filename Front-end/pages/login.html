@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Oficina Aprender+ — Login</title>
+  <link rel="stylesheet" href="../assets/css/global.css"/>
+  <link rel="stylesheet" href="../assets/css/login.css"/>
+</head>
+<body>
+
+  <!-- Fundo decorativo -->
+  <div class="bg-decor" aria-hidden="true">
+    <span class="blob1"></span>
+    <span class="blob2"></span>
+  </div>
+
+  <!-- Botão de tema -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Alternar modo escuro">
+    <span class="icon" id="themeIcon">🌙</span>
+    <span id="themeLabel">Modo Escuro</span>
+  </button>
+
+  <!-- Card de login -->
+  <div class="card" role="main">
+
+    <!-- Logo -->
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        <strong>Oficina Aprender+</strong>
+        <span>Plataforma Psicopedagógica</span>
+      </div>
+    </div>
+
+    <!-- Cabeçalho -->
+    <div class="form-header">
+      <h1>Bem-vindo de volta</h1>
+      <p>Acesse sua conta para continuar acompanhando seus alunos.</p>
+    </div>
+
+    <!-- Formulário -->
+    <form id="loginForm" novalidate>
+
+      <div class="field">
+        <label for="email">E-mail</label>
+        <div class="input-wrap">
+          <span class="input-icon">✉</span>
+          <input type="email" id="email" name="email"
+                 placeholder="seu@email.com"
+                 autocomplete="email" required/>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="senha" name="senha"
+                 placeholder="••••••••"
+                 autocomplete="current-password" required/>
+          <button type="button" class="toggle-pass" id="togglePass"
+                  aria-label="Mostrar senha">👁</button>
+        </div>
+      </div>
+
+      <a href="#" class="forgot">Esqueci minha senha</a>
+
+      <button type="submit" class="btn-primary" id="btnLogin">
+        <div class="spinner"></div>
+        <span class="btn-text">Entrar</span>
+      </button>
+
+      <div class="feedback" id="feedback" role="alert"></div>
+
+    </form>
+
+    <div class="divider">ou</div>
+
+    <p class="signup-link">
+      Não tem conta? <a href="cadastro.html">Cadastre-se aqui</a>
+    </p>
+
+    <div class="card-footer">
+      <div class="dot"></div>
+      <span>Conexão segura com o servidor</span>
+    </div>
+
+  </div>
+
+  <script src="../assets/js/utils.js"></script>
+  <script src="../assets/js/login.js"></script>
+</body>
+</html>
