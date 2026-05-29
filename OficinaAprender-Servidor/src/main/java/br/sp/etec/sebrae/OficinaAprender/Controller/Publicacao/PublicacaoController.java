@@ -1,8 +1,8 @@
 package br.sp.etec.sebrae.OficinaAprender.Controller.Publicacao;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao.Publicacao;
-import br.sp.etec.sebrae.OficinaAprender.Service.Publicacao.Anexo.AnexoService;
-import br.sp.etec.sebrae.OficinaAprender.Service.Publicacao.PublicacaoService;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
+import br.sp.etec.sebrae.OficinaAprender.Service.Postagem.Anexo.AnexoService;
+import br.sp.etec.sebrae.OficinaAprender.Service.Postagem.PostagemService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class PublicacaoController {
 
     @PostMapping("/salvar")
-    public ResponseEntity<?> salvar(@RequestBody Publicacao publicacao){
-    publicacao.getAnexos().forEach(anexo -> anexo.setPublicacao(publicacao));
-    publicacao.getAnexos().forEach(AnexoService::salvar);
-        return ResponseEntity.ok().body( PublicacaoService.salvar(publicacao));
+    public ResponseEntity<?> salvar(@RequestBody Postagem postagem){
+    postagem.getAnexos().forEach(anexo -> anexo.setPostagem(postagem));
+    postagem.getAnexos().forEach(AnexoService::salvar);
+        return ResponseEntity.ok().body( PostagemService.salvar(postagem));
 
     }
 

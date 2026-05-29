@@ -1,29 +1,37 @@
 package br.sp.etec.sebrae.OficinaAprender.Relaction;
 
 import br.sp.etec.sebrae.OficinaAprender.Entity.Aluno;
-
-import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Tipos.Parente;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Role;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.logging.log4j.message.StringFormattedMessage;
+
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "parente_aluno", schema = "ARELACAO")
-public class ParenteAluno {
+@Table(name = "usuario_aluno", schema = "ARELACAO")
+public class UsuarioAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @ManyToOne
-    @JoinColumn(name = "idParente")
-    private Parente parente;
+    @JoinColumn(name = "idUsuario")
+    private Usuario usuario;
+
     @ManyToOne
-    @JoinColumn(name = "idAluno")
+    @JoinColumn(name = "idaluno")
     private Aluno aluno;
+
+    private Role role;
+
+
 }
+

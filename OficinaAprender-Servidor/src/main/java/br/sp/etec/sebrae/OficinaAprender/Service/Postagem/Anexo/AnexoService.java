@@ -1,6 +1,6 @@
-package br.sp.etec.sebrae.OficinaAprender.Service.Publicacao.Anexo;
+package br.sp.etec.sebrae.OficinaAprender.Service.Postagem.Anexo;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao.Anexo.Anexo;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo.Anexo;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Publicacao.Anexo.AnexoRepository;
 
 import java.util.Optional;

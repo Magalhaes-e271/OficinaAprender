@@ -7,5 +7,6 @@ public enum TipoPostagem {
     EVOLUCAO,
     ATIVIDADE,
     RELATORIO,
-    COMUNICADO
+    COMUNICADO,
+    DESCRICAO
 }

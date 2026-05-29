@@ -1,6 +1,6 @@
-package br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao.Anexo;
+package br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao.Publicacao;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "anexo", schema = "PUBLICACAO")
 public class Anexo {
 
     @Id
@@ -29,6 +28,6 @@ public class Anexo {
     private LocalDateTime dataUpload;
 
     @ManyToOne
-    @JoinColumn(name = "publicacao_id")
-    private Publicacao publicacao;
+    @JoinColumn(name = "Postagem_id")
+    private Postagem postagem;
 }

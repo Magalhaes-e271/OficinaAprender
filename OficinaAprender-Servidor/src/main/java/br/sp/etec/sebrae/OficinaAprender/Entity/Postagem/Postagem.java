@@ -1,9 +1,9 @@
-package br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao;
+package br.sp.etec.sebrae.OficinaAprender.Entity.Postagem;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Publicacao.Anexo.Anexo;
-import br.sp.etec.sebrae.OficinaAprender.Relaction.ProfissionalAluno;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo.Anexo;
+import br.sp.etec.sebrae.OficinaAprender.Relaction.Permissao.PermissaoAcesso;
+import br.sp.etec.sebrae.OficinaAprender.Relaction.UsuarioAluno;
 import br.sp.etec.sebrae.OficinaAprender.res.TipoPostagem;
-import br.sp.etec.sebrae.OficinaAprender.res.VisibilidadePostagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,8 +20,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "publicacoes", schema = "ACONTEUDO")
-public class Publicacao {
+public class Postagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,14 +38,14 @@ public class Publicacao {
     @Enumerated(EnumType.STRING)
     private List<TipoPostagem> tipoPostagem;
 
-    @Enumerated(EnumType.STRING)
-    private List<VisibilidadePostagem> visibilidade;
+    @OneToMany(mappedBy = "IDAlvo")
+    private List<PermissaoAcesso> permissoes = new ArrayList<>() ;
 
     @ManyToOne
-    @JoinColumn(name = "idProfissionalAluno")
-    private ProfissionalAluno profissionalAluno;
+    @JoinColumn(name = "idUsuarioAluno")
+    private UsuarioAluno usuarioAluno;
 
-    @OneToMany(mappedBy = "publicacao", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "postagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Anexo> anexos = new ArrayList<>();
 }
 

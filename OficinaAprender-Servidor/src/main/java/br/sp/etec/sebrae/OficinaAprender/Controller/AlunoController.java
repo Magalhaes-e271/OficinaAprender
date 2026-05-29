@@ -37,7 +37,7 @@ public class AlunoController {
                    .body("Usuário não encontrado.");
        }
 
-        if(usuario.getRole() != Role.ROLE_PROFISSIONAL) {
+        if(usuario.getRole() != Role.PROFISSIONAL) {
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
                     .body("Apenas profissionais podem cadastrar alunos.");

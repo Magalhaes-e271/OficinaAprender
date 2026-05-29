@@ -1,5 +1,6 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,8 +16,10 @@ public class Aluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String nome;
 
+    @OneToOne
+    @JoinColumn(name = "idPostagem")
+    Postagem postagem;
 
 
 }

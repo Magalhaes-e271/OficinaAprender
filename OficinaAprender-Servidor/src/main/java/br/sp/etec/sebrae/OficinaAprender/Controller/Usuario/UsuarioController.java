@@ -36,13 +36,13 @@ public class UsuarioController {
         usuario.setRole(dto.role());
         usuario.setId(response.id());
 
-        if(usuario.getRole() == Role.ROLE_PROFISSIONAL){
+        if(usuario.getRole() == Role.PROFISSIONAL){
             Profissional profissional = new Profissional();
             profissional.setUsuario(usuario);
             profissional.setNome(dto.nome());
             profissionalService.salvar(profissional);
         }
-        if(usuario.getRole() == Role.ROLE_FAMILIA ){
+        if(usuario.getRole() == Role.FAMILIA ){
             Parente parente = new Parente();
             parente.setUsuario(usuario);
             parente.setNome(dto.nome());
