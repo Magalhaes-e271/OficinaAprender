@@ -45,8 +45,7 @@ public class AuthController {
 
         LoginResponseDTO resposta = new LoginResponseDTO(
                 token,
-                usuario.getEmail(),
-                Role.valueOf(String.valueOf(usuario.getRole()))
+                usuario.getEmail()
                 );
 
         return ResponseEntity.ok(resposta);

@@ -1,7 +1,7 @@
-package br.sp.etec.sebrae.OficinaAprender.Relaction.Service;
+package br.sp.etec.sebrae.OficinaAprender.Service.Relation;
 
-import br.sp.etec.sebrae.OficinaAprender.Relaction.Repository.UsuarioAlunoRepository;
-import br.sp.etec.sebrae.OficinaAprender.Relaction.UsuarioAluno;
+import br.sp.etec.sebrae.OficinaAprender.Repository.Relation.UsuarioAlunoRepository;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioAluno;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

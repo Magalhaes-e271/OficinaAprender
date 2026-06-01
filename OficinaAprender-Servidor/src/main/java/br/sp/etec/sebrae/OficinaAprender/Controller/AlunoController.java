@@ -36,12 +36,6 @@ public class AlunoController {
                    .status(HttpStatus.NOT_FOUND)
                    .body("Usuário não encontrado.");
        }
-
-        if(usuario.getRole() != Role.PROFISSIONAL) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body("Apenas profissionais podem cadastrar alunos.");
-        }
         Aluno alunoSalvo = AlunoService.salvar(aluno);
     return ResponseEntity
             .status(HttpStatus.CREATED)

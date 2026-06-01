@@ -1,8 +1,8 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Postagem;
 
 import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo.Anexo;
-import br.sp.etec.sebrae.OficinaAprender.Relaction.Permissao.PermissaoAcesso;
-import br.sp.etec.sebrae.OficinaAprender.Relaction.UsuarioAluno;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.Permissao.PermissaoAcesso;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioAluno;
 import br.sp.etec.sebrae.OficinaAprender.res.TipoPostagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,19 +26,16 @@ public class Postagem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String titulo;
-
-    @Column(columnDefinition = "TEXT")
-    private String conteudo;
-
     private LocalDateTime dataCriacao;
 
     private LocalDateTime dataAtualizacao;
 
-    @Enumerated(EnumType.STRING)
-    private List<TipoPostagem> tipoPostagem;
+    @Column(columnDefinition = "TEXT")
+    private String conteudoHtml;
 
-    @OneToMany(mappedBy = "IDAlvo")
+    private String titulo;
+
+    @OneToMany(mappedBy = "idPostagem")
     private List<PermissaoAcesso> permissoes = new ArrayList<>() ;
 
     @ManyToOne
@@ -47,5 +44,8 @@ public class Postagem {
 
     @OneToMany(mappedBy = "postagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Anexo> anexos = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private List<TipoPostagem> tipoPostagem;
 }
 

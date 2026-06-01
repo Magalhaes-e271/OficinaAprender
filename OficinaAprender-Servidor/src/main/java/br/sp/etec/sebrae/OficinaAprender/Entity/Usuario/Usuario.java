@@ -1,5 +1,6 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Usuario;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Descricao;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -22,5 +23,9 @@ public class Usuario {
 
     @Column(nullable = false)
     private String senha;
+
+    @OneToOne
+    @JoinColumn(name = "idDescricao")
+    Descricao descricao;
 
 }

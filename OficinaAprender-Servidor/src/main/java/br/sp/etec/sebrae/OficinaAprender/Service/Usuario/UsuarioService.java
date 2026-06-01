@@ -15,7 +15,7 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public UsuarioResponseDTO salvar(UsuarioRequestDTO dto) {
+    public UsuarioResponseDTO Criar(UsuarioRequestDTO dto) {
 
         boolean emailJaExiste = usuarioRepository.findByEmail(dto.email()).isPresent();
 
@@ -26,14 +26,12 @@ public class UsuarioService {
         Usuario usuario = new Usuario();
         usuario.setEmail(dto.email());
         usuario.setSenha(dto.senha());
-        usuario.setRole(dto.role());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
 
         return new UsuarioResponseDTO(
                 usuarioSalvo.getId(),
-                usuarioSalvo.getEmail(),
-                usuarioSalvo.getRole()
+                usuarioSalvo.getEmail()
         );
     }
 }

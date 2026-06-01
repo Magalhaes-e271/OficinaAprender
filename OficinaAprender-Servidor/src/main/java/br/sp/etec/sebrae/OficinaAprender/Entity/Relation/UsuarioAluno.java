@@ -1,4 +1,4 @@
-package br.sp.etec.sebrae.OficinaAprender.Relaction;
+package br.sp.etec.sebrae.OficinaAprender.Entity.Relation;
 
 import br.sp.etec.sebrae.OficinaAprender.Entity.Aluno;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Role;
@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.logging.log4j.message.StringFormattedMessage;
 
 
 @Entity
@@ -16,7 +15,7 @@ import org.apache.logging.log4j.message.StringFormattedMessage;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usuario_aluno", schema = "ARELACAO")
+@Table(name = "usuario_aluno")
 public class UsuarioAluno {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,8 +29,15 @@ public class UsuarioAluno {
     @JoinColumn(name = "idaluno")
     private Aluno aluno;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
+    private enum TipoAcesso {
+        COMUM,
+        ADMIN
+    }
+
+    private String foto;
 
 }
 

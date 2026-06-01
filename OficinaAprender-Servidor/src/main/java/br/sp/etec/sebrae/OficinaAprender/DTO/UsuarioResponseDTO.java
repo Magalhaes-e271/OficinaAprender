@@ -4,7 +4,6 @@ import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Role;
 
 public record UsuarioResponseDTO(
         Long id,
-        String email,
-        Role role
+        String email
 ) {
 }

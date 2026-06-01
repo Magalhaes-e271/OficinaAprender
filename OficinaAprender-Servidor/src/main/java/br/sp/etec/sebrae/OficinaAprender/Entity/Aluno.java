@@ -1,5 +1,6 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Descricao;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,8 @@ public class Aluno {
     Long id;
 
     @OneToOne
-    @JoinColumn(name = "idPostagem")
-    Postagem postagem;
+    @JoinColumn(name = "idDescricao")
+    Descricao descricao;
 
 
 }

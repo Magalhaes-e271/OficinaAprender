@@ -22,7 +22,6 @@ public class TokenService {
                 .withIssuer(ISSUER)
                 .withSubject(usuario.getEmail())
                 .withClaim("id", usuario.getId())
-                .withClaim("role", String.valueOf(usuario.getRole()))
                 .withExpiresAt(Instant.now().plus(30, ChronoUnit.SECONDS))
                 .sign(algoritmo);
     }

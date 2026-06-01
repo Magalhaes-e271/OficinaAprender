@@ -15,9 +15,13 @@ public class Anexo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "Postagem_id")
+    private Postagem postagem;
+
     private String nomeOriginal;
 
-    private String nomeArquivoSalvo;
+    private String nomeSalvo;
 
     private String tipoArquivo;
 
@@ -27,7 +31,5 @@ public class Anexo {
 
     private LocalDateTime dataUpload;
 
-    @ManyToOne
-    @JoinColumn(name = "Postagem_id")
-    private Postagem postagem;
+
 }
