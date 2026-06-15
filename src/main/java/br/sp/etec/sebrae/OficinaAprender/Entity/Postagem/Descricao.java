@@ -34,11 +34,5 @@ public class Descricao {
     private TipoDescricao tipoDescricao;
 
 
-    @OneToOne(mappedBy = "descricao", cascade = CascadeType.ALL)
-    @JoinColumn(name = "idAluno", nullable = true)
-    private Aluno aluno;
 
-    @OneToOne(mappedBy = "descricao", cascade = CascadeType.ALL)
-    @JoinColumn(name = "idUsuario", nullable = true)
-    private Usuario usuario;
 }

@@ -37,12 +37,13 @@ public class UsuarioService {
 
         return new UsuarioResponseDTO(
                 usuarioSalvo.getId(),
-                usuarioSalvo.getEmail()
+                usuarioSalvo.getEmail(),
+                usuarioSalvo.getDescricao()
         );
     }
-    public Usuario findByEmail(String email){
-        return usuarioRepository.findByEmail(email).orElse(null);
-    }
+    public UsuarioResponseDTO findByEmail(String email){
+        Usuario usr = usuarioRepository.findByEmail(email).orElse(null);
+        return new  UsuarioResponseDTO( usr.getId(), usr.getEmail(), usr.getDescricao());}
     public Usuario findById(Long id) {
         return usuarioRepository.findById(id).orElse(null);
     }

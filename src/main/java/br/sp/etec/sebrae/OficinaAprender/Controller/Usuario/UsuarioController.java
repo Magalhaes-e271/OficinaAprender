@@ -50,17 +50,17 @@ public class UsuarioController {
         usuarioService.deletar(id);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("{email}")
+    @GetMapping("/email/{email}")
     public ResponseEntity<?> buscarPorEmail(@PathVariable String email){
         if(usuarioService.findByEmail(email).getEmail() == null){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Não foi possivel encontra um usuario com esse email");
         }
-        return
-                ResponseEntity.ok(usuarioService.findByEmail(email));
+        return ResponseEntity.ok(
+                usuarioService.findByEmail(email));
     }
-    @GetMapping("{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id){
         if(usuarioService.findById(id).getId() == null){
             return ResponseEntity
