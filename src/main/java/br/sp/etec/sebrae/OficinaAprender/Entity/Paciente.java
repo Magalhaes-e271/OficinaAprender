@@ -1,7 +1,5 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Descricao;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,14 +11,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Aluno {
+public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @OneToOne
-    @JoinColumn(name = "idDescricao")
-    Descricao descricao;
 
-
+    @JoinColumn(
+            name = "descricao",
+            foreignKey = @ForeignKey(name = "fk_descricao_paciente")
+    )
+    Long idDescricao;
 }

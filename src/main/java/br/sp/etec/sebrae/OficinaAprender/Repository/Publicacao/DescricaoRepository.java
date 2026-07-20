@@ -13,4 +13,5 @@ public interface DescricaoRepository extends JpaRepository<Descricao, Long> {
     @Override
     @NonNull
     Optional<Descricao> findById(@NonNull Long aLong);
+    Optional<Descricao> findByEmail(@NonNull String  email);
 }

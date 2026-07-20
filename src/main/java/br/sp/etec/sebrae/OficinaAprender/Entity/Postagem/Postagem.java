@@ -1,8 +1,6 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Postagem;
 
 import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo.Anexo;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.Permissao.PermissaoAcesso;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioAluno;
 import br.sp.etec.sebrae.OficinaAprender.res.TipoPostagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -34,13 +32,6 @@ public class Postagem {
     private String conteudoHtml;
 
     private String titulo;
-
-    @OneToMany(mappedBy = "idPostagem")
-    private List<PermissaoAcesso> permissoes = new ArrayList<>() ;
-
-    @ManyToOne
-    @JoinColumn(name = "idUsuarioAluno")
-    private UsuarioAluno usuarioAluno;
 
     @OneToMany(mappedBy = "postagem", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Anexo> anexos = new ArrayList<>();

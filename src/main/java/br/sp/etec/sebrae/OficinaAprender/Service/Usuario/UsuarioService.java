@@ -5,6 +5,7 @@ import br.sp.etec.sebrae.OficinaAprender.DTO.UsuarioResponseDTO;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.stereotype.Service;
@@ -41,12 +42,23 @@ public class UsuarioService {
                 usuarioSalvo.getDescricao()
         );
     }
-    public UsuarioResponseDTO findByEmail(String email){
+    public ResponseEntity<?> findByEmail(String email){
         Usuario usr = usuarioRepository.findByEmail(email).orElse(null);
-        return new  UsuarioResponseDTO( usr.getId(), usr.getEmail(), usr.getDescricao());}
-    public Usuario findById(Long id) {
-        return usuarioRepository.findById(id).orElse(null);
+        if(usr == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario nao encotrado");
+        }
+        return ResponseEntity.ok(new UsuarioResponseDTO( usr.getId(), usr.getEmail(), usr.getDescricao()));}
+
+    public ResponseEntity<?> findById(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if(usuario == null){
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body("Não foi possivel encontra um usuario com esse id");
+        }
+        return ResponseEntity.ok(usuario);
     }
+
     public Usuario editar(Long id, Usuario dadosAtualizados) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));

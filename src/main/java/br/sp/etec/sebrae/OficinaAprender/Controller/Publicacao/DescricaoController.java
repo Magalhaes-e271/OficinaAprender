@@ -22,10 +22,7 @@ public class DescricaoController {
 
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@RequestBody Descricao descricao){
-        Descricao descricaoSalva = DescricaoService.salvar(descricao);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(descricaoSalva);
+        return DescricaoService.criar(descricao);
     }
 
     @PostMapping("{id}")
@@ -41,10 +38,8 @@ public class DescricaoController {
                     .body("Não foi possivel achar essa descricao");
         }else {
 
-        Descricao descricaoSalva = DescricaoService.salvar(descricao);
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(descricaoSalva);
+        return DescricaoService.salvar(descricao);
+
         }
     }
 

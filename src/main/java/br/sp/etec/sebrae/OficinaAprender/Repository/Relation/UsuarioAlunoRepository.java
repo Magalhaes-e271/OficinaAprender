@@ -1,13 +1,13 @@
 package br.sp.etec.sebrae.OficinaAprender.Repository.Relation;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioAluno;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioPaciente;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface UsuarioAlunoRepository extends JpaRepository<UsuarioAluno, Long>{
+public interface UsuarioAlunoRepository extends JpaRepository<UsuarioPaciente, Long>{
     @Override
-    Optional<UsuarioAluno> findById(Long aLong);
+    Optional<UsuarioPaciente> findById(Long aLong);
 }

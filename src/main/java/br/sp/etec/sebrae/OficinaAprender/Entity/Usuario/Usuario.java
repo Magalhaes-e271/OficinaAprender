@@ -25,7 +25,10 @@ public class Usuario {
     private String senha;
 
     @OneToOne
-    @JoinColumn(name = "idDescricao")
+    @JoinColumn(
+            name = "idDescricao",
+            foreignKey = @ForeignKey(name = "fk_descricao")
+    )
     Descricao descricao;
 
 }

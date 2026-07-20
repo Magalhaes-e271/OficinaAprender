@@ -1,7 +1,5 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Postagem;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Aluno;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 import br.sp.etec.sebrae.OficinaAprender.res.TipoDescricao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,9 +13,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Descricao {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(nullable = true)
+    private Long id;
 
     private String nome;
     private String resumo;
@@ -29,7 +29,7 @@ public class Descricao {
     private String telefone;
     private String instituicao;
     private String formacao;
-
+    private String email;
     @Enumerated(EnumType.STRING)
     private TipoDescricao tipoDescricao;
 

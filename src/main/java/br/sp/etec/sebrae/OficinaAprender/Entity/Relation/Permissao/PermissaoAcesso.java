@@ -1,10 +1,14 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Relation.Permissao;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Relation.UsuarioPaciente;
+import br.sp.etec.sebrae.OficinaAprender.res.Permissao;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.mapping.UnionSubclass;
 
 
 @Entity
@@ -17,18 +21,20 @@ public class PermissaoAcesso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String idSujeito;
-
     @Enumerated(EnumType.STRING)
-    private permissao permissao;
+    private Permissao permissao;
 
-    @JoinColumn(name = "idPostagem")
-    private Long idPostagem;
-
-    private enum permissao{
-        Visualizar,
-        Editar
-    }
-
+    @ManyToOne
+    @JoinColumn(
+            name = "idPostagem",
+            foreignKey = @ForeignKey(name = "fk_postagem")
+    )
+    Postagem postagem;
+    @ManyToOne
+    @JoinColumn(
+            name = "idUsuarioPaciente",
+            foreignKey = @ForeignKey(name = "fk_UsuarioPaciente")
+    )
+    UsuarioPaciente usuarioPaciente;
 
 }

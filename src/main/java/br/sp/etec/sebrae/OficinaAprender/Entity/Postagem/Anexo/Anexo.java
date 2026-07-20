@@ -16,8 +16,11 @@ public class Anexo {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "Postagem_id")
-    private Postagem postagem;
+    @JoinColumn(
+            name = "idPostagem",
+            foreignKey = @ForeignKey(name = "fk_postagem")
+    )
+     private Postagem postagem;
 
     private String nomeOriginal;
 
@@ -30,6 +33,5 @@ public class Anexo {
     private Long tamanhoArquivo;
 
     private LocalDateTime dataUpload;
-
 
 }

@@ -1,5 +1,6 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Relation;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +17,17 @@ public class PostagemRelacionada {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long postagemMaeId;
+    @ManyToOne
+    @JoinColumn(
+            name = "idPostagemMae",
+            foreignKey = @ForeignKey(name = "fk_postagem_Mae")
+    )
+    private Postagem idPostagemMae;
 
-    private Long postagemFilhaId;
+    @ManyToOne
+    @JoinColumn(
+            name = "idPostagemFilha",
+            foreignKey = @ForeignKey(name = "fk_postagem_Filha")
+    )
+    private Postagem idPostagemFilha;
 }
