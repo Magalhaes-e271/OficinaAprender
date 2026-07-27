@@ -21,13 +21,11 @@ public class PacienteService {
     }
 
     // Criar Aluno
-    public static ResponseEntity<?> criar(Paciente paciente) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(pacienteRepository.save(paciente));
+    public static Paciente criar(Paciente paciente) {
+        return pacienteRepository.save(paciente);
     }
     // Editar Aluno
-   public static ResponseEntity<?> salvar(Paciente paciente) { return ResponseEntity.ok(pacienteRepository.save(paciente));
+   public static ResponseEntity<?> Criar(Paciente paciente) { return ResponseEntity.ok(pacienteRepository.save(paciente));
     }
 
 

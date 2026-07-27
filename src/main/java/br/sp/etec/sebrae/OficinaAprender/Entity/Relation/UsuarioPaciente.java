@@ -3,11 +3,14 @@ package br.sp.etec.sebrae.OficinaAprender.Entity.Relation;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Paciente;
 import br.sp.etec.sebrae.OficinaAprender.res.Role;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
+import br.sp.etec.sebrae.OficinaAprender.res.TipoAcesso;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Objects;
 
 
 @Entity
@@ -33,17 +36,16 @@ public class UsuarioPaciente {
             name = "idPaciente",
             foreignKey = @ForeignKey(name = "fk_paciente")
     )
-    private Paciente Paciente;
+    private Paciente paciente;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private enum TipoAcesso {
-        COMUM,
-        ADMIN
+   private TipoAcesso tipoAcesso;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, usuario, paciente, role);
     }
-
-    private String foto;
-
 }
 

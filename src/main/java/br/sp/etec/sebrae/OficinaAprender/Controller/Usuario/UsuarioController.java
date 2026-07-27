@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class UsuarioController {
     /**
 
@@ -41,7 +41,7 @@ public class UsuarioController {
 /**    <h1>CRUD</h1> */
     @PostMapping("/criar")
     public ResponseEntity<?> criarConta(@RequestBody UsuarioRequestDTO dto) {
-        UsuarioResponseDTO response = usuarioService.Criar(dto);
+        UsuarioResponseDTO response = usuarioService.criar(dto);
         Usuario usuario = new Usuario();
         usuario.setEmail(dto.email());
         usuario.setSenha(dto.senha());
@@ -61,7 +61,7 @@ public class UsuarioController {
     }
     @GetMapping("/email/{email}")
     public ResponseEntity<?> buscarPorEmail(@PathVariable String email){
-        if(usuarioService.findByEmail(email).getBody() == null){
+        if(usuarioService.findByEmail(email) == null){
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body("Não foi possivel encontra um usuario com esse email");

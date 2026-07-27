@@ -1,4 +1,4 @@
-package br.sp.etec.sebrae.OficinaAprender.Controller.Settings;
+package br.sp.etec.sebrae.OficinaAprender.Controller.Login;
 
 import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
 import br.sp.etec.sebrae.OficinaAprender.DTO.LoginRequestDTO;
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UsuarioRepository usuarioRepository;
-    private final TokenService tokenService;
 
-    public AuthController(UsuarioRepository usuarioRepository, TokenService tokenService) {
+
+    public AuthController(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -40,10 +39,8 @@ public class AuthController {
                     .body("Email ou senha inválidos.");
         }
 
-        String token = tokenService.gerarToken(usuario);
 
         LoginResponseDTO resposta = new LoginResponseDTO(
-                token,
                 usuario.getEmail()
                 );
 

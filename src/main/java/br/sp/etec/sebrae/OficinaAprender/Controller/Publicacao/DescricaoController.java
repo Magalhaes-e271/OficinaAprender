@@ -22,6 +22,7 @@ public class DescricaoController {
 
     @PostMapping("/criar")
     public ResponseEntity<?> criar(@RequestBody Descricao descricao){
+
         return DescricaoService.criar(descricao);
     }
 

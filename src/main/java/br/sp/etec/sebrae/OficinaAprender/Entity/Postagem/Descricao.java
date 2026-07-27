@@ -16,12 +16,11 @@ public class Descricao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = true)
     private Long id;
 
     private String nome;
     private String resumo;
-    private String Fotourl;
+    private String fotoUrl;
 
     @Column(columnDefinition = "TEXT")
     private String conteudoHtml;
@@ -30,9 +29,7 @@ public class Descricao {
     private String instituicao;
     private String formacao;
     private String email;
+
     @Enumerated(EnumType.STRING)
     private TipoDescricao tipoDescricao;
-
-
-
 }
