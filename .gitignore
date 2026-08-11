@@ -37,4 +37,7 @@ out/
 .vscode/
 
 ### DATA BASE ###
-!**/data
+/data
+
+### Test ###
+*-test.*
