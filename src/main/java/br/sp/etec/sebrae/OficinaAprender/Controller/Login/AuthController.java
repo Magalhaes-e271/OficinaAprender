@@ -1,10 +1,10 @@
 package br.sp.etec.sebrae.OficinaAprender.Controller.Login;
 
+import br.sp.etec.sebrae.OficinaAprender.DTO.UsuarioRequestDTO;
+import br.sp.etec.sebrae.OficinaAprender.DTO.UsuarioResponseDTO;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
-import br.sp.etec.sebrae.OficinaAprender.DTO.LoginRequestDTO;
-import br.sp.etec.sebrae.OficinaAprender.DTO.LoginResponseDTO;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
-import br.sp.etec.sebrae.OficinaAprender.Service.Settings.TokenService;
+import br.sp.etec.sebrae.OficinaAprender.Service.Usuario.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
 
-    public AuthController(UsuarioRepository usuarioRepository) {
+    public AuthController(UsuarioRepository usuarioRepository, UsuarioService usuarioService) {
         this.usuarioRepository = usuarioRepository;
+        this.usuarioService = usuarioService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDTO dados) {
+    public ResponseEntity<?> login(@RequestBody UsuarioRequestDTO dados) {
 
         Usuario usuario = usuarioRepository.findByEmail(dados.email())
                 .orElse(null);
@@ -40,9 +42,7 @@ public class AuthController {
         }
 
 
-        LoginResponseDTO resposta = new LoginResponseDTO(
-                usuario.getEmail()
-                );
+        UsuarioResponseDTO resposta = usuarioService.converterParaDTO(usuario);
 
         return ResponseEntity.ok(resposta);
     }

@@ -1,12 +1,9 @@
 package br.sp.etec.sebrae.OficinaAprender.Entity.Usuario;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Descricao;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
+import br.sp.etec.sebrae.OficinaAprender.Enuns.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,11 +21,9 @@ public class Usuario {
     @Column(nullable = false)
     private String senha;
 
-    @OneToOne
-    @JoinColumn(
-            name = "idDescricao",
-            foreignKey = @ForeignKey(name = "fk_descricao")
-    )
-    Descricao descricao;
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipoUsuario;
+
+
 
 }

@@ -1,23 +1,33 @@
 package br.sp.etec.sebrae.OficinaAprender.DTO;
 
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Descricao;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.PerfilUsuario.PerfilUsuario;
+import br.sp.etec.sebrae.OficinaAprender.Enuns.TipoUsuario;
 
 
 public record UsuarioResponseDTO(
         Long id,
         String email,
-        Descricao descricao
-) {
-    public Long getId() {
-        return this.id;
+        TipoUsuario tipoUsuario,
+        PerfilUsuario perfil
+)
+{
+    @Override
+    public Long id() {
+        return id;
     }
 
-
-    public String getEmail() {
-        return this.email;
+    @Override
+    public String email() {
+        return email;
     }
 
-    public Descricao getDescricao() {
-        return this.descricao;
+    @Override
+    public TipoUsuario tipoUsuario() {
+        return tipoUsuario;
+    }
+
+    @Override
+    public PerfilUsuario perfil() {
+        return perfil;
     }
 }

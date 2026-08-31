@@ -2,7 +2,9 @@ package br.sp.etec.sebrae.OficinaAprender.Service.Usuario;
 
 import br.sp.etec.sebrae.OficinaAprender.DTO.UsuarioRequestDTO;
 import br.sp.etec.sebrae.OficinaAprender.DTO.UsuarioResponseDTO;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.PerfilUsuario.PerfilUsuario;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
+import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.PerfilUsuario.PerfilUsuarioRepository;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,27 +12,32 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    private final PerfilUsuarioRepository perfilUsuarioRepository;
+    public UsuarioService(UsuarioRepository usuarioRepository, PerfilUsuarioRepository perfilUsuarioRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.perfilUsuarioRepository = perfilUsuarioRepository;
     }
 
     public UsuarioResponseDTO criar(UsuarioRequestDTO dto) {
 
-        boolean emailJaExiste =
-                usuarioRepository.findByEmail(dto.email()).isPresent();
-
-        if (emailJaExiste) {
-            throw new RuntimeException(
-                    "Já existe um usuário com esse e-mail"
-            );
+        if (usuarioRepository.findByEmail(dto.email()).isPresent()) {
+            throw new RuntimeException("Já existe um usuário com esse e-mail");
         }
 
         Usuario usuario = new Usuario();
         usuario.setEmail(dto.email());
         usuario.setSenha(dto.senha());
+        usuario.setTipoUsuario(dto.tipoUsuario());
 
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
+
+        PerfilUsuario perfilUsuario = dto.perfilUsuario();
+
+        if (perfilUsuario == null) {
+            perfilUsuario = new PerfilUsuario();
+        }
+        perfilUsuario.setUsuario(usuarioSalvo);
+        perfilUsuarioRepository.save(perfilUsuario);
 
         return converterParaDTO(usuarioSalvo);
     }
@@ -72,11 +79,14 @@ public class UsuarioService {
         usuarioRepository.delete(usuario);
     }
 
-    private UsuarioResponseDTO converterParaDTO(Usuario usuario) {
+    public UsuarioResponseDTO converterParaDTO(Usuario usuario) {
+        PerfilUsuario perfilUsuario = perfilUsuarioRepository.findById(usuario.getId()).orElse(null);
         return new UsuarioResponseDTO(
                 usuario.getId(),
                 usuario.getEmail(),
-                usuario.getDescricao()
+                usuario.getTipoUsuario(),
+                perfilUsuario
+
         );
     }
 }

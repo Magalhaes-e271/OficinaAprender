@@ -22,16 +22,14 @@ public class Anexo {
     )
      private Postagem postagem;
 
-    private String nomeOriginal;
-
-    private String nomeSalvo;
-
-    private String tipoArquivo;
+    private String nome;
 
     private String urlArquivo;
 
     private Long tamanhoArquivo;
 
+    private String tipoArquivo;
+    
     private LocalDateTime dataUpload;
 
 }

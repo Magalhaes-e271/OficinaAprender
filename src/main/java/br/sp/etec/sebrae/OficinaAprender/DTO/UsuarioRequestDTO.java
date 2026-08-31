@@ -1,11 +1,12 @@
 package br.sp.etec.sebrae.OficinaAprender.DTO;
 
-import br.sp.etec.sebrae.OficinaAprender.res.Role;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.PerfilUsuario.PerfilUsuario;
+import br.sp.etec.sebrae.OficinaAprender.Enuns.TipoUsuario;
 
 public record UsuarioRequestDTO(
         String email,
         String senha,
-        String nome,
-        Role role
+        TipoUsuario tipoUsuario,
+        PerfilUsuario perfilUsuario
 ) {
 }
