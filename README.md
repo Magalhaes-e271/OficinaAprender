@@ -1,39 +1,88 @@
-# OficinaAprender
+# 🎓 Oficina Aprender
 
-API REST desenvolvida em Java com Spring Boot para gestão de usuários, perfis, postagens e relações entre usuários. O projeto foi estruturado em camadas com foco em organização e separação de responsabilidades, utilizando JPA para persistência em banco relacional.
+API REST desenvolvida em **Java com Spring Boot** para uma plataforma voltada à interação e ao aprendizado entre usuários.
 
-## Visão geral
+O sistema possui funcionalidades de **cadastro de usuários, autenticação, gerenciamento de perfil, criação de postagens e relações entre usuários**, utilizando uma arquitetura organizada em camadas e persistência com **Spring Data JPA**.
 
-O sistema oferece recursos para:
+---
 
-- cadastro e gerenciamento de usuários;
-- login simples com e-mail e senha;
-- atualização de perfil do usuário;
-- criação de postagens;
-- relacionamento entre usuários;
-- persistência em banco H2 em modo arquivo.
+## 🚀 Tecnologias
 
-## Tecnologias utilizadas
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.0.4-brightgreen?style=for-the-badge&logo=springboot)
+![Gradle](https://img.shields.io/badge/Gradle-Build-02303A?style=for-the-badge&logo=gradle)
+![H2](https://img.shields.io/badge/H2-Database-blue?style=for-the-badge)
 
 - Java 21
 - Spring Boot 4.0.4
 - Spring Web
 - Spring Data JPA
 - H2 Database
+- JWT
 - Lombok
 - Gradle
-- JWT (`com.auth0:java-jwt:4.4.0`)
+- JUnit
 
-## Estrutura do projeto
+---
+
+## 📚 Sobre o projeto
+
+O **Oficina Aprender** foi desenvolvido com o objetivo de criar uma API para uma plataforma onde usuários possam possuir perfis, publicar conteúdos e estabelecer relações com outros usuários.
+
+Atualmente a API possui recursos para:
+
+- 👤 cadastro de usuários;
+- 🔐 autenticação de usuários;
+- 🪪 gerenciamento de perfil;
+- 📝 criação de postagens;
+- 🤝 relações entre usuários;
+- 🎯 gerenciamento de metas;
+- 📎 anexos em conteúdos;
+- 💾 persistência dos dados em banco H2.
+
+---
+
+## 🏗️ Arquitetura
+
+O projeto utiliza uma arquitetura em camadas:
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Database
+```
+
+### Controller
+
+Responsável por receber as requisições HTTP e disponibilizar os endpoints da API.
+
+### Service
+
+Contém as regras de negócio da aplicação.
+
+### Repository
+
+Responsável pela comunicação com o banco de dados através do **Spring Data JPA**.
+
+### Entity
+
+Representa as entidades persistidas no banco de dados.
+
+### DTO
+
+Objetos utilizados para transferência de dados entre cliente e servidor.
+
+---
+
+## 📁 Estrutura do projeto
 
 ```text
 OficinaAprender/
-├── build.gradle
-├── settings.gradle
-├── gradlew
-├── gradlew.bat
-├── gradle/
-│   └── wrapper/
+│
 ├── src/
 │   ├── main/
 │   │   ├── java/
@@ -45,153 +94,78 @@ OficinaAprender/
 │   │   │       │   └── Usuario/
 │   │   │       ├── DTO/
 │   │   │       ├── Entity/
-│   │   │       │   ├── Postagem/
-│   │   │       │   ├── Relacao/
-│   │   │       │   └── Usuario/
 │   │   │       ├── Enuns/
 │   │   │       ├── Repository/
-│   │   │       │   ├── Postagem/
-│   │   │       │   ├── Relacao/
-│   │   │       │   └── Usuario/
 │   │   │       ├── Service/
-│   │   │       │   ├── Postagem/
-│   │   │       │   ├── Relacao/
-│   │   │       │   ├── Settings/
-│   │   │       │   └── Usuario/
-│   │   │       ├── OficinaAprenderApplication.java
+│   │   │       └── OficinaAprenderApplication.java
 │   │   └── resources/
 │   │       └── application.properties
 │   └── test/
-│       └── java/
-│           └── br/sp/etec/sebrae/OficinaAprender/
-│               └── OficinaAprenderApplicationTests.java
+│
+├── gradle/
+├── build.gradle
+├── settings.gradle
+├── gradlew
+├── gradlew.bat
+└── README.md
 ```
 
-## Pacotes principais
+---
 
-### Controller
+## 🧩 Principais entidades
 
-Responsável por expor os endpoints da API.
+### 👤 Usuário
 
-Principais controladores:
+Representa os usuários cadastrados na plataforma.
 
-- `AuthController` — autenticação e login
-- `UsuarioController` — cadastro, busca, edição e exclusão de usuários
-- `PerfilUsuarioController` — visualização e edição do perfil do usuário
-- `PostagemController` — criação de postagens
-- `UsuarioRelacaoController` — gestão de relações entre usuários
+Principais informações:
 
-### Service
+- ID
+- e-mail
+- senha
+- tipo de usuário
 
-Contém a lógica de negócio da aplicação.
+### 🪪 Perfil
 
-Exemplos:
+Armazena informações adicionais sobre o usuário, como:
 
-- `UsuarioService`
-- `PerfilUsuarioService`
-- `PostagemService`
-- `RelacaoUsuarioService`
-- `TokenService`
+- nome;
+- telefone;
+- CPF;
+- foto de perfil;
+- data de nascimento;
+- ocupação;
+- instituição;
+- descrição/conteúdo do perfil.
 
-### Repository
+### 📝 Postagem
 
-Camada de acesso ao banco de dados com Spring Data JPA.
+Representa os conteúdos publicados dentro da plataforma.
 
-Exemplos:
+Uma postagem pode possuir:
 
-- `UsuarioRepository`
-- `PerfilUsuarioRepository`
-- `PostagemRepository`
-- `RelacaoUsuarioRepository`
+- título;
+- conteúdo;
+- tipo de postagem;
+- visibilidade;
+- data de criação;
+- data de atualização.
 
-### Entity
+### 🤝 Relação entre usuários
 
-Representam as entidades do banco.
+Permite representar vínculos entre usuários da plataforma, como relações entre alunos, professores ou outros tipos definidos pelo sistema.
 
-Entidades principais:
+---
 
-- `Usuario`
-- `PerfilUsuario`
-- `Postagem`
-- `Meta`
-- `Anexo`
-- `RelacaoUsuario`
+## 🌐 Principais endpoints
 
-### DTO
+### 🔐 Autenticação
 
-Objetos usados para transporte de dados entre camadas.
+```http
+POST /auth/login
+```
 
-Exemplos:
-
-- `UsuarioRequestDTO`
-- `UsuarioResponseDTO`
-
-### Enums
-
-Definem tipos e categorias usados pelo sistema.
-
-Exemplos:
-
-- `TipoUsuario`
-- `TipoPostagem`
-- `TipoRelacao`
-- `TipoAcesso`
-- `Visualizacao`
-- `Permissao`
-- `Solicitacao`
-
-## Modelo de domínio
-
-### Usuário
-
-A entidade `Usuario` possui:
-
-- `id`
-- `email`
-- `senha`
-- `tipoUsuario`
-
-Cada usuário pode estar associado a um `PerfilUsuario`.
-
-### Perfil do usuário
-
-O perfil contém dados complementares do usuário, como:
-
-- `nome`
-- `telefone`
-- `cpf`
-- `urlFotoPerfil`
-- `dataNascimento`
-- `ocupacao`
-- `instituicao`
-- `conteudoHtml`
-- `dataCriacao`
-- `dataAtualizacao`
-
-### Postagem
-
-`Postagem` representa conteúdos publicados pela plataforma e contém:
-
-- `titulo`
-- `conteudoHtml`
-- `tipoPostagem`
-- `visualizacao`
-- `dataCriacao`
-- `dataAtualizacao`
-
-### Relação entre usuários
-
-A entidade `RelacaoUsuario` representa vínculos ou associações entre usuários.
-
-## Endpoints da API
-
-### Autenticação
-
-#### POST `/auth/login`
-
-Realiza autenticação do usuário com e-mail e senha.
-
-Exemplo de payload:
+Exemplo:
 
 ```json
 {
@@ -200,63 +174,55 @@ Exemplo de payload:
 }
 ```
 
-Resposta:
+### 👤 Usuários
 
-- sucesso: retorna os dados do usuário autenticado;
-- erro: retorna `401 Unauthorized` quando as credenciais são inválidas.
+```http
+POST /usuario/criar
+PUT /usuario/editar
+DELETE /usuario/deletar
+GET /usuario/email
+GET /usuario/id
+```
 
-### Usuário
+### 🪪 Perfil
 
-#### POST `/usuario/criar`
-Cria um novo usuário.
+```http
+POST /perfil
+PUT /perfil/editar
+```
 
-#### PUT `/usuario/editar`
-Edita um usuário existente.
+### 📝 Postagens
 
-#### DELETE `/usuario/deletar`
-Exclui um usuário.
+```http
+POST /postagem/criar
+```
 
-#### GET `/usuario/email`
-Busca usuário por e-mail.
+### 📎 Anexos
 
-#### GET `/usuario/id`
-Busca usuário por ID.
+```http
+POST /anexo/criar
+```
 
-#### GET `/usuario/descricao`
-Busca descrição ou perfil do usuário por ID.
+### 🤝 Relações
 
-#### PUT `/usuario/descricao`
-Atualiza a descrição do usuário.
+```http
+POST /usuario-aluno/criar
+PUT /usuario-aluno/editar
+```
 
-### Perfil
+---
 
-#### POST `/perfil`
-Busca perfil por ID.
+## 💾 Banco de dados
 
-#### PUT `/perfil/editar`
-Edita o perfil do usuário.
+Durante o desenvolvimento, o projeto utiliza o **H2 Database**.
 
-### Postagem
+A configuração está localizada em:
 
-#### POST `/postagem/criar`
-Cria uma nova postagem.
+```text
+src/main/resources/application.properties
+```
 
-Parâmetros:
-
-- corpo da postagem
-- `idMeta` via query param
-
-### Relação entre usuários
-
-#### POST `/usuario-aluno/criar`
-Cria uma relação entre usuários.
-
-#### PUT `/usuario-aluno/editar`
-Edita uma relação existente.
-
-## Configuração do banco de dados
-
-O projeto usa H2 em arquivo, com dados persistidos localmente no diretório do projeto:
+Exemplo:
 
 ```properties
 spring.datasource.url=jdbc:h2:file:./data/dbTCC
@@ -266,53 +232,139 @@ spring.datasource.driver-class-name=org.h2.Driver
 spring.jpa.hibernate.ddl-auto=update
 ```
 
-### Console H2
-
-O console do banco está habilitado em:
+O console web do H2 pode ser acessado, quando habilitado, em:
 
 ```text
 http://localhost:8080/h2-console
 ```
 
-## Como executar o projeto
+---
+
+## ⚙️ Como executar
 
 ### Pré-requisitos
 
-- Java 21
-- Gradle ou uso do wrapper
 - Git
+- Java 21
 
-### Comandos
+O projeto utiliza **Gradle Wrapper**, então não é necessário instalar o Gradle separadamente.
+
+### 1. Clone o repositório
+
+```bash
+git clone https://github.com/Magalhaes-e271/OficinaAprender.git
+cd OficinaAprender
+```
+
+### 2. Compile o projeto
+
+Linux/macOS:
 
 ```bash
 ./gradlew clean build
-./gradlew bootRun
 ```
 
-No Windows:
+Windows:
 
 ```bash
 gradlew.bat clean build
+```
+
+### 3. Execute a aplicação
+
+Linux/macOS:
+
+```bash
+./gradlew bootRun
+```
+
+Windows:
+
+```bash
 gradlew.bat bootRun
 ```
 
-## Observações importantes
+Por padrão, a API ficará disponível em:
 
-- O projeto usa Java 21, por isso é necessário ter esse JDK instalado.
-- A organização em camadas facilita manutenção e expansão da aplicação.
-- Há um bom começo para uma API REST, mas ainda é possível melhorar:
-  - validação de entradas;
-  - padronização de respostas de erro;
-  - uso de DTOs em mais operações;
-  - autenticação com JWT mais robusta;
-  - cobertura de testes mais ampla.
+```text
+http://localhost:8080
+```
 
-## Conclusão
+---
 
-O repositório `OficinaAprender` é uma API REST em Java/Spring Boot voltada para a gestão de usuários, perfis, postagens e relações de conexão entre pessoas. A estrutura está bem organizada em camadas e serve como base para evoluir uma plataforma mais completa.
+## 🧪 Testes
 
-## Repositório
+Linux/macOS:
 
-- Repositório: `Magalhaes-e271/OficinaAprender`
-- Linguagem principal: Java
-- Branch padrão: `master`
+```bash
+./gradlew test
+```
+
+Windows:
+
+```bash
+gradlew.bat test
+```
+
+---
+
+## 🔒 Autenticação
+
+O projeto utiliza a biblioteca:
+
+```text
+com.auth0:java-jwt:4.4.0
+```
+
+para trabalhar com **JSON Web Tokens (JWT)**.
+
+---
+
+## 🛠️ Melhorias futuras
+
+- [ ] ampliar a autenticação e autorização com JWT;
+- [ ] adicionar validações com Bean Validation;
+- [ ] criar tratamento global de exceções;
+- [ ] aumentar a cobertura de testes;
+- [ ] adicionar documentação com Swagger/OpenAPI;
+- [ ] utilizar PostgreSQL em produção;
+- [ ] implementar upload de arquivos;
+- [ ] adicionar paginação nas consultas;
+- [ ] integrar a API com o front-end da plataforma;
+- [ ] realizar deploy da aplicação.
+
+---
+
+## 🎯 Objetivo
+
+O **Oficina Aprender** busca servir como base para uma plataforma educacional e social, permitindo que diferentes usuários compartilhem informações, publiquem conteúdos e criem conexões dentro de um ambiente voltado ao aprendizado.
+
+O projeto também coloca em prática conceitos importantes de desenvolvimento de sistemas, como:
+
+- APIs REST;
+- arquitetura em camadas;
+- orientação a objetos;
+- persistência de dados;
+- autenticação;
+- relacionamento entre entidades;
+- integração entre front-end e back-end.
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Magalhaes-e271**.
+
+GitHub: [@Magalhaes-e271](https://github.com/Magalhaes-e271)
+
+---
+
+## 📄 Licença
+
+Este projeto foi desenvolvido para fins educacionais.
+
+---
+
+<p align="center">
+  Desenvolvido com ☕ Java + 🌱 Spring Boot
+</p>
