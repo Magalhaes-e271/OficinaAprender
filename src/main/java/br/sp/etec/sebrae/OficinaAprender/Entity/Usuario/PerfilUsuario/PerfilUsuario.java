@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -14,7 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PerfilUsuario {
-
 
     @Id
     private Long id;
@@ -29,6 +29,13 @@ public class PerfilUsuario {
     private String telefone;
     private String cpf;
     private String urlFotoPerfil;
+
+    // Campo que faltava: usado pelo service para localizar a foto no disco.
+    // O Lombok gera getFotoArquivo() e setFotoArquivo().
+    @JsonIgnore
+    @Column(name = "foto_arquivo")
+    private String fotoArquivo;
+
     private Date dataNascimento;
     private String ocupacao;
     private String instituicao;
@@ -38,12 +45,19 @@ public class PerfilUsuario {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime dataCriacao;
+
     @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
+
+    private LocalTime horarioDeEntrada;
+    private LocalTime horarioDeSaida;
+    private String condicao;
+
     @PrePersist
     public void prePersist() {
-        dataCriacao = LocalDateTime.now();
-        dataAtualizacao = LocalDateTime.now();
+        LocalDateTime agora = LocalDateTime.now();
+        dataCriacao = agora;
+        dataAtualizacao = agora;
     }
 
     @PreUpdate

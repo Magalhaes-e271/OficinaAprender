@@ -4,27 +4,73 @@ import br.sp.etec.sebrae.OficinaAprender.Entity.Relacao.RelacaoUsuario;
 import br.sp.etec.sebrae.OficinaAprender.Service.Relacao.RelacaoUsuarioService;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuario-aluno")
 public class UsuarioRelacaoController {
-   public RelacaoUsuarioService relacaoUsuarioService;
-   UsuarioRelacaoController(RelacaoUsuarioService relacaoUsuarioService){
-       this.relacaoUsuarioService = relacaoUsuarioService;
-   }
-    @PostMapping("/criar")
-    public ResponseEntity<?> criar(RelacaoUsuario relacaoUsuario){
-    return relacaoUsuarioService.criar(relacaoUsuario);
+
+    private final RelacaoUsuarioService relacaoUsuarioService;
+
+
+    public UsuarioRelacaoController(
+
+            RelacaoUsuarioService relacaoUsuarioService
+
+    ) {
+
+        this.relacaoUsuarioService =
+                relacaoUsuarioService;
     }
 
-    @PutMapping(value = "/editar")
-    public ResponseEntity<?> editar(RelacaoUsuario relacaoUsuario){
-       relacaoUsuarioService.salvar(relacaoUsuario);
-        return ResponseEntity.ok().build();
+
+    @PostMapping("/criar")
+    public ResponseEntity<?> criar(
+
+            @RequestBody
+            RelacaoUsuario relacaoUsuario,
+
+            @RequestHeader(
+                    value = "Authorization",
+                    required = false
+            )
+            String authorizationHeader
+
+    ) {
+
+        return relacaoUsuarioService.criar(
+
+                relacaoUsuario,
+
+                authorizationHeader
+        );
+    }
+
+
+    @PutMapping("/editar")
+    public ResponseEntity<?> editar(
+
+            @RequestBody
+            RelacaoUsuario relacaoUsuario,
+
+            @RequestHeader(
+                    value = "Authorization",
+                    required = false
+            )
+            String authorizationHeader
+
+    ) {
+
+        relacaoUsuarioService.salvar(
+
+                relacaoUsuario,
+
+                authorizationHeader
+        );
+
+
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }

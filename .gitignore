@@ -38,6 +38,7 @@ out/
 
 ### DATA BASE ###
 /data
-
+.env
+/uploads/
 ### Test ###
 *-test.*

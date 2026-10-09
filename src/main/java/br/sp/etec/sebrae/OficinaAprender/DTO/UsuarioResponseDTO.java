@@ -3,31 +3,33 @@ package br.sp.etec.sebrae.OficinaAprender.DTO;
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.PerfilUsuario.PerfilUsuario;
 import br.sp.etec.sebrae.OficinaAprender.Enuns.TipoUsuario;
 
-
 public record UsuarioResponseDTO(
+
         Long id,
+
         String email,
+
         TipoUsuario tipoUsuario,
-        PerfilUsuario perfil
-)
-{
-    @Override
-    public Long id() {
-        return id;
-    }
 
-    @Override
-    public String email() {
-        return email;
-    }
+        PerfilUsuario perfil,
 
-    @Override
-    public TipoUsuario tipoUsuario() {
-        return tipoUsuario;
-    }
+        String token
 
-    @Override
-    public PerfilUsuario perfil() {
-        return perfil;
+) {
+
+    public UsuarioResponseDTO(
+            Long id,
+            String email,
+            TipoUsuario tipoUsuario,
+            PerfilUsuario perfil
+    ) {
+
+        this(
+                id,
+                email,
+                tipoUsuario,
+                perfil,
+                null
+        );
     }
 }
