@@ -31,7 +31,6 @@ public class SecurityConfig {
     public UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Mantém a política de origens dos seus @CrossOrigin atuais.
         config.setAllowedOrigins(List.of("*"));
 
         config.setAllowedMethods(List.of(
@@ -80,6 +79,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
+                                "/health",
+                                "/login",
                                 "/auth/login",
                                 "/usuario/criar"
                         )
