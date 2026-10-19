@@ -63,6 +63,9 @@ public class PerfilUsuario {
     @JsonProperty("condicoes")
     public String getCondicoes() { return condicao; }
 
+    @JsonProperty("condicoes")
+    public void setCondicoes(String condicoes) { this.condicao = condicoes; }
+
     @PrePersist
     public void prePersist() {
         LocalDateTime agora = LocalDateTime.now();

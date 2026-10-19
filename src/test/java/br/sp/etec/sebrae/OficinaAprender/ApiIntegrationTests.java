@@ -202,4 +202,27 @@ class ApiIntegrationTests {
         assertEquals(204,chamar("DELETE","/agenda/"+id,a.token,null).status);
         assertEquals(201,chamar("POST","/agenda/criar",a.token,entrada).status);
     }
+    @Test void migracaoPreservaDadosDeUmBancoLegado() throws Exception {
+        String schema = "legado_migracao_test";
+        jdbc.execute("CREATE SCHEMA " + schema);
+        try {
+            var ds = jdbc.getDataSource();
+            assertNotNull(ds);
+            try (var conn = ds.getConnection(); var statement = conn.createStatement()) {
+                conn.setSchema(schema);
+                String sql = new String(Objects.requireNonNull(getClass().getResourceAsStream("/db/migration/V1__estrutura_original.sql")).readAllBytes(), StandardCharsets.UTF_8);
+                statement.execute(sql);
+                statement.execute("INSERT INTO usuario(id,email,senha,tipo_usuario) VALUES (1,'profissional@example.test','hash-teste','PROFISSIONAL'),(2,'paciente@example.test','hash-teste','PACIENTE')");
+                statement.execute("INSERT INTO relacao_usuario(id,id_usuario_solicitante,id_usuario_destinatario,tipo_relacao,solicitacao) VALUES (1,1,2,'PROFISSIONAL_PACIENTE',1)");
+                statement.execute("INSERT INTO meta(id,id_relacao_usuario,titulo,concluido) VALUES (1,1,'Registro preservado',false)");
+            }
+            org.flywaydb.core.Flyway.configure().dataSource(ds).schemas(schema).defaultSchema(schema)
+                    .baselineOnMigrate(true).baselineVersion("0").load().migrate();
+            assertEquals("Registro preservado",jdbc.queryForObject("select titulo from " + schema + ".meta where id=1",String.class));
+            assertEquals(2L,jdbc.queryForObject("select paciente_id from " + schema + ".meta where id=1",Long.class));
+            assertEquals(1L,jdbc.queryForObject("select responsavel_id from " + schema + ".meta where id=1",Long.class));
+            assertEquals(2,jdbc.queryForObject("select count(*) from " + schema + ".usuario",Integer.class));
+        } finally { jdbc.execute("DROP SCHEMA " + schema + " CASCADE"); }
+    }
+
 }

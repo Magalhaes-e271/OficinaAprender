@@ -46,7 +46,10 @@ public class AcessoService {
         if (!atual().getId().equals(id)) throw erro(FORBIDDEN, "Você só pode alterar sua própria conta.");
     }
     public void editarPerfil(Long id) {
-        if (!atual().getId().equals(id)) editarPaciente(id);
+        if (!atual().getId().equals(id)) {
+            if (usuario(id).getTipoUsuario() != TipoUsuario.PACIENTE) throw erro(FORBIDDEN, "Você só pode alterar sua própria conta.");
+            editarPaciente(id);
+        }
     }
     public void lerPerfil(Long id) {
         var pessoa = usuario(id);

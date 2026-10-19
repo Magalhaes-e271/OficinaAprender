@@ -124,7 +124,7 @@ public class UsuarioService {
     public UsuarioResponseDTO converterParaDTO(Usuario usuario) { return converterParaDTO(usuario, null); }
     public UsuarioResponseDTO converterParaDTO(Usuario usuario, String token) {
         return new UsuarioResponseDTO(usuario.getId(), usuario.getEmail(), usuario.getTipoUsuario(),
-                perfis.findById(usuario.getId()).orElse(null), token);
+                perfis.findById(usuario.getId()).orElse(null), token, usuario.getCriadoPorId(), usuario.isAcessoHabilitado());
     }
     public static void copiar(PerfilUsuario origem, PerfilUsuario destino) {
         destino.setNome(origem.getNome()); destino.setTelefone(origem.getTelefone()); destino.setCpf(origem.getCpf());
