@@ -2,6 +2,8 @@ package br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.PerfilUsuario;
 
 import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,6 +38,9 @@ public class PerfilUsuario {
     @Column(name = "foto_arquivo")
     private String fotoArquivo;
 
+    @JsonIgnore
+    private Long fotoId;
+
     private Date dataNascimento;
     private String ocupacao;
     private String instituicao;
@@ -51,7 +56,12 @@ public class PerfilUsuario {
 
     private LocalTime horarioDeEntrada;
     private LocalTime horarioDeSaida;
+    @Column(length = 2000)
+    @JsonAlias("condicoes")
     private String condicao;
+
+    @JsonProperty("condicoes")
+    public String getCondicoes() { return condicao; }
 
     @PrePersist
     public void prePersist() {
