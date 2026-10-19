@@ -4,6 +4,7 @@ import br.sp.etec.sebrae.OficinaAprender.Enuns.TipoUsuario;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -19,10 +20,18 @@ public class Usuario {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore
     private String senha;
 
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipoUsuario;
+
+    private boolean ativo = true;
+    private boolean acessoHabilitado = true;
+    @JsonIgnore
+    private int versaoToken;
+    @JsonIgnore
+    private Long criadoPorId;
 
 
 

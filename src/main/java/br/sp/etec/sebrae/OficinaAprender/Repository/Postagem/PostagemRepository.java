@@ -4,10 +4,13 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface PostagemRepository extends JpaRepository<Postagem, Long> {
     @Override
     @NonNull
     Optional<Postagem> findById(@NonNull Long aLong);
+    List<Postagem> findByMetaIdOrderByDataCriacaoAscIdAsc(Long id);
+    boolean existsByRespondeAId(Long id);
 }
