@@ -33,7 +33,7 @@ jobs:
       PGPASSWORD: oficina_test
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -44,10 +44,10 @@ jobs:
         run: python3 scripts/testar_reinicio.py
       - name: Ensaiar backup e restauração
         run: |
-          pg_dump -d oficina_aprender_test -Fc -f build/backup-teste.dump
-          createdb oficina_restore_test
-          pg_restore --exit-on-error -d oficina_restore_test build/backup-teste.dump
-          psql -d oficina_restore_test -v ON_ERROR_STOP=1 -c "DO \$\$ BEGIN IF NOT EXISTS (SELECT 1 FROM arquivo WHERE tamanho > 0) THEN RAISE EXCEPTION 'Arquivo de teste ausente na restauração'; END IF; END \$\$;"
+          docker exec "${{ job.services.postgres.id }}" pg_dump -U oficina_user -d oficina_aprender_test -Fc > build/backup-teste.dump
+          docker exec "${{ job.services.postgres.id }}" createdb -U oficina_user oficina_restore_test
+          docker exec -i "${{ job.services.postgres.id }}" pg_restore -U oficina_user --exit-on-error -d oficina_restore_test < build/backup-teste.dump
+          docker exec "${{ job.services.postgres.id }}" psql -U oficina_user -d oficina_restore_test -v ON_ERROR_STOP=1 -c "DO \$\$ BEGIN IF NOT EXISTS (SELECT 1 FROM arquivo WHERE tamanho > 0) THEN RAISE EXCEPTION 'Arquivo de teste ausente na restauração'; END IF; END \$\$;"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -56,4 +56,5 @@ jobs:
             build/reports/tests/test
             build/test-results/test
             build/reinicio.json
+            build/reinicio.log
           retention-days: 14

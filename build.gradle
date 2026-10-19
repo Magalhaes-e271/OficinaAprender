@@ -44,6 +44,7 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+    testLogging { events 'failed'; exceptionFormat 'full' }
 }
 
 springBoot { buildInfo() }

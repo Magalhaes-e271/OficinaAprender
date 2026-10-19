@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ApiIntegrationTests {
     @LocalServerPort int port;
     @Autowired JdbcTemplate jdbc;
+    @Autowired org.springframework.core.env.Environment ambiente;
     final JsonMapper json = JsonMapper.builder().build();
     final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(10)).build();
     record Conta(long id, String email, String token) {}
@@ -206,8 +207,10 @@ class ApiIntegrationTests {
         String schema = "legado_migracao_test";
         jdbc.execute("CREATE SCHEMA " + schema);
         try {
-            var ds = jdbc.getDataSource();
-            assertNotNull(ds);
+            var ds = new org.springframework.jdbc.datasource.DriverManagerDataSource(
+                    ambiente.getRequiredProperty("spring.datasource.url"),
+                    ambiente.getRequiredProperty("spring.datasource.username"),
+                    ambiente.getRequiredProperty("spring.datasource.password"));
             try (var conn = ds.getConnection(); var statement = conn.createStatement()) {
                 conn.setSchema(schema);
                 String sql = new String(Objects.requireNonNull(getClass().getResourceAsStream("/db/migration/V1__estrutura_original.sql")).readAllBytes(), StandardCharsets.UTF_8);
