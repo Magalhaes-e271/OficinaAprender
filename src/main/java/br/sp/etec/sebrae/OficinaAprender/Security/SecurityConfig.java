@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .csrf(c -> c.disable()).sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(a -> a
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/health", "/login", "/auth/login", "/usuario/criar", "/auth/ativar", "/error").permitAll()
+                        .requestMatchers("/health", "/login", "/auth/login", "/usuario/criar", "/auth/ativar", "/auth/ativacao/consultar", "/error").permitAll()
                         .anyRequest().authenticated())
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((req, res, ex) -> {

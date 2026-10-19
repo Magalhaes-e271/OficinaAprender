@@ -52,6 +52,16 @@ public class AtivacaoService {
         usuarios.saveAndFlush(u); jdbc.update("delete from ativacao_conta where usuario_id = ?", u.getId());
         return new LoginResponseDTO(tokens.gerarToken(u), pessoas.converterParaDTO(u));
     }
+    @Transactional(readOnly = true)
+    public AtivacaoResumo consultar(AtivacaoConsulta dto) {
+        if (dto.token() == null || dto.token().length() > 100) throw erro(BAD_REQUEST, "Link inválido ou expirado.");
+        var ids = jdbc.queryForList("select usuario_id from ativacao_conta where token_hash = ? and expira_em > CURRENT_TIMESTAMP", Long.class, hash(dto.token()));
+        if (ids.isEmpty()) throw erro(BAD_REQUEST, "Link inválido ou expirado.");
+        var u = usuarios.findById(ids.getFirst()).filter(p -> p.isAtivo() && !p.isAcessoHabilitado())
+                .orElseThrow(() -> erro(BAD_REQUEST, "Link inválido ou já utilizado."));
+        var perfil = pessoas.converterParaDTO(u).perfil();
+        return new AtivacaoResumo(perfil == null ? "Paciente" : perfil.getNome(), u.getEmail());
+    }
     private String hash(String token) {
         try { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(token.getBytes(java.nio.charset.StandardCharsets.UTF_8))); }
         catch (NoSuchAlgorithmException e) { throw new IllegalStateException(e); }

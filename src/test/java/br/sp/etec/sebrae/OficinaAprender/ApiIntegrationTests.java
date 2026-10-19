@@ -167,6 +167,8 @@ class ApiIntegrationTests {
         var falha=multipart("/postagem/publicar?idMeta="+m,a.token,post("Falha","TODOS"),"arquivos",List.of(new ArquivoTeste("ok.pdf","application/pdf",pdf),new ArquivoTeste("ataque.svg","image/svg+xml","<svg/>".getBytes(StandardCharsets.UTF_8))));
         assertEquals(400,falha.status,falha.texto);assertEquals(total,jdbc.queryForObject("select count(*) from postagem",Integer.class));assertEquals(blobs,jdbc.queryForObject("select count(*) from arquivo",Integer.class));
         var ativacao=chamar("POST","/paciente/"+p+"/ativacao",a.token,Map.of());assertEquals(200,ativacao.status,ativacao.texto);String token=dados(ativacao).path("token").asText();
+        var consulta=chamar("POST","/auth/ativacao/consultar",null,Map.of("token",token));assertEquals(200,consulta.status,consulta.texto);assertEquals("p@example.test",dados(consulta).path("email").asText());
+        assertEquals(400,chamar("POST","/auth/ativacao/consultar",null,Map.of("token","invalido")).status);
         var entrada=chamar("POST","/auth/ativar",null,Map.of("token",token,"senha","SenhaPaciente123!"));assertEquals(200,entrada.status,entrada.texto);String pacienteToken=dados(entrada).path("token").asText();
         assertEquals(400,chamar("POST","/auth/ativar",null,Map.of("token",token,"senha","SenhaPaciente123!")).status);
         assertEquals(0,dados(chamar("GET","/postagem?idMeta="+m,pacienteToken,null)).size());

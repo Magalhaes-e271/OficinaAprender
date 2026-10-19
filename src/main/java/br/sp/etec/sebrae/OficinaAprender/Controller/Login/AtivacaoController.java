@@ -9,5 +9,6 @@ import org.springframework.web.bind.annotation.*;
 public class AtivacaoController {
     private final AtivacaoService service;
     @PostMapping("/paciente/{id}/ativacao") public AtivacaoResposta emitir(@PathVariable Long id) { return service.emitir(id); }
+    @PostMapping("/auth/ativacao/consultar") public AtivacaoResumo consultar(@RequestBody AtivacaoConsulta dto) { return service.consultar(dto); }
     @PostMapping("/auth/ativar") public LoginResponseDTO ativar(@RequestBody AtivacaoEntrada dto) { return service.ativar(dto); }
 }

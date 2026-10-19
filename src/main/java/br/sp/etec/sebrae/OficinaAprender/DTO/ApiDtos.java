@@ -37,6 +37,8 @@ public final class ApiDtos {
                                  Instant inicio, Instant fim, String observacoes) {}
     public record ConviteEquipe(Long idProfissional) {}
     public record AtivacaoEntrada(String token, String senha) {}
+    public record AtivacaoConsulta(String token) {}
+    public record AtivacaoResumo(String nome, String email) {}
     public record AtivacaoResposta(String token, Instant expiraEm, String email) {}
     public record SenhaEntrada(String senhaAtual, String novaSenha) {}
 }

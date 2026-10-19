@@ -22,7 +22,9 @@ O banco anterior tinha seis usuários e seis perfis, sem pacientes vinculados, m
 
 Arquivos novos são armazenados no banco. Arquivos antigos que já tenham desaparecido do disco temporário não podem ser reconstruídos a partir de seu nome; o usuário pode reenviar a foto na página de perfil.
 
-O aplicativo mobile não foi identificado nos dois repositórios auditados. A compatibilidade dos endereços antigos de login e dos principais campos foi preservada, mas uma compilação mobile requer o respectivo código-fonte.
+O aplicativo Android foi identificado em MatheusOLiveira03/TCC. A integração substitui o login local simulado por JWT real, ativa contas com token de uso único e consulta os mesmos pacientes, metas, registros e vínculos. A compilação e o APK são verificados pelo workflow desse repositório. Os endereços antigos de login permanecem como adaptadores para outros clientes.
+
+A entrega completa do frontend está em `frontend/` na branch `codex/entrega-frontend` deste repositório. A integração não recebeu acesso de escrita ao Front-TCC (403), por isso a publicação de entrega usa essa branch autorizada. O site possui CI próprio com os 23 testes da interface. A publicação de entrega está em https://oficina-aprender-tcc.onrender.com.
 
 ## Voltar à versão anterior
 

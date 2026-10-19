@@ -72,7 +72,7 @@ A identidade vem do contexto de segurança. Autor, dono, datas e aceite não sã
 | --- | --- |
 | Usuário | `POST /usuario/criar` multipart `dados` + `foto`; `GET /usuario/me`; `PUT /usuario/descricao?id`; `POST /usuario/foto?id` multipart `arquivo`; `PUT /usuario/senha` |
 | Paciente | `GET /paciente`; `GET /paciente/{id}`; `POST /paciente/criar`; `GET/POST /paciente/{id}/equipe` |
-| Ativação | `POST /paciente/{id}/ativacao`; `POST /auth/ativar` com token e senha |
+| Ativação | `POST /paciente/{id}/ativacao`; `POST /auth/ativar` com token e senha; `POST /auth/ativacao/consultar` para conferir o primeiro acesso no Android |
 | Equipe | `GET /usuario/buscar?nome`; `GET /usuario-aluno`; `POST /usuario-aluno/criar`; `PUT /usuario-aluno/{id}/aceitar`; `DELETE /usuario-aluno/{id}` |
 | Metas | `GET /meta?idPaciente`; `POST /meta/criar?idPaciente`; `GET/PATCH/DELETE /meta/{id}` |
 | Postagens | `GET /postagem?idMeta`; `POST /postagem/publicar?idMeta` multipart `dados` + `arquivos`; `POST /postagem/criar?idMeta`; `PATCH/DELETE /postagem/{id}` |
