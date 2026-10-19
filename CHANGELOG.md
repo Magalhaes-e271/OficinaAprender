@@ -1,5 +1,16 @@
 # Histórico de versões — Oficina Aprender
 
+## 1.0.0 — 19 de outubro de 2026
+
+- Unifica login BCrypt e aplica autorização por conta e vínculo aceito.
+- Remove senhas das respostas e tira a assinatura JWT do código público.
+- Completa pacientes, equipes e convites, metas com dependências, postagens e respostas, anexos e agenda.
+- Persiste fotos e anexos no PostgreSQL com transações e download autorizado.
+- Adiciona ativação de pacientes, alteração de senha, erros padronizados e limpeza de HTML ativo.
+- Adiciona migrações Flyway, testes HTTP com PostgreSQL, ensaio de migração, reinício e restauração.
+- Atualiza a documentação de execução e publicação.
+
+
 Este arquivo registra a evolução do backend/API do Oficina Aprender. As alterações do site e do aplicativo mobile devem ser registradas nos respectivos projetos.
 
 ## Atualização do backend — 09/10/2026
