@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 
 
 @Entity
@@ -30,14 +29,6 @@ public class Postagem {
             foreignKey = @ForeignKey(name = "fk_meta")
     )
     Meta meta;
-
-    @ManyToOne
-    @JoinColumn(name = "autor_id")
-    private Usuario autor;
-
-    @ManyToOne
-    @JoinColumn(name = "responde_a_id")
-    private Postagem respondeA;
     private String titulo;
 
 

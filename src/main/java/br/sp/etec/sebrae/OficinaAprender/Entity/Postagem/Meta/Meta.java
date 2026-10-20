@@ -9,9 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 
 
 @Entity
@@ -31,19 +28,6 @@ public class Meta {
             foreignKey = @ForeignKey(name = "fk_relacao_usuario")
     )
     private RelacaoUsuario relacaoUsuario;
-
-    @ManyToOne
-    @JoinColumn(name = "paciente_id")
-    private Usuario paciente;
-
-    @ManyToOne
-    @JoinColumn(name = "responsavel_id")
-    private Usuario responsavel;
-
-    @ManyToMany
-    @JoinTable(name = "meta_dependencia", joinColumns = @JoinColumn(name = "meta_id"),
-            inverseJoinColumns = @JoinColumn(name = "anterior_id"))
-    private Set<Meta> anteriores = new LinkedHashSet<>();
 
     private String area;
     private String titulo;

@@ -37,10 +37,8 @@ public class RelacaoUsuario {
     private Usuario usuarioDestinatario;
 
     @Enumerated(EnumType.STRING)
-    private TipoRelacao tipoRelacao;
-    @Enumerated(EnumType.ORDINAL)
+    private TipoRelacao TipoRelacao;
     private Solicitacao solicitacao;
-    private Long convidadoPorId;
     private Date dataSolicitacao;
     private Date dataAceitacao;
 

@@ -1,48 +1,325 @@
 package br.sp.etec.sebrae.OficinaAprender.Service.Postagem.Anexo;
-import br.sp.etec.sebrae.OficinaAprender.DTO.ApiDtos.AnexoResposta;
+
 import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Anexo.Anexo;
-import br.sp.etec.sebrae.OficinaAprender.Entity.Arquivo.Arquivo;
+import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Postagem;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Postagem.Anexo.AnexoRepository;
-import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
-import br.sp.etec.sebrae.OficinaAprender.Service.Postagem.PostagemService;
-import br.sp.etec.sebrae.OficinaAprender.Service.Arquivo.ArquivoService;
-import lombok.RequiredArgsConstructor;
+import br.sp.etec.sebrae.OficinaAprender.Repository.Postagem.PostagemRepository;
+import br.sp.etec.sebrae.OficinaAprender.Service.Token.TokenService;
+
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import java.time.LocalDateTime;
+
 import java.util.List;
-import static br.sp.etec.sebrae.OficinaAprender.Service.Validacao.*;
-import static org.springframework.http.HttpStatus.*;
+import java.util.UUID;
+
 @Service
-@RequiredArgsConstructor
 public class AnexoService {
-    private final AnexoRepository anexos;
-    private final PostagemService posts;
-    private final ArquivoService arquivos;
-    private final UsuarioRepository usuarios;
-    @Transactional
-    public AnexoResposta criar(MultipartFile arquivo, Long idPostagem) {
-        var p = posts.buscar(idPostagem); posts.autor(p);
-        usuarios.bloquear(p.getMeta().getPaciente().getId()).orElseThrow();
-        arquivos.validarLote(List.of(arquivo));
-        long soma = anexos.findByPostagemId(idPostagem).stream().mapToLong(a -> a.getTamanhoArquivo() == null ? 0 : a.getTamanhoArquivo()).sum();
-        if (soma + arquivo.getSize() > ArquivoService.TOTAL || anexos.findByPostagemId(idPostagem).size() >= 10)
-            throw erro(BAD_REQUEST, "A publicação deve ter até 10 arquivos e até 11 MB no total.");
-        return posts.anexo(posts.anexar(p, arquivo));
+
+    private final AnexoRepository anexoRepository;
+
+    private final PostagemRepository postagemRepository;
+
+    private final TokenService tokenService;
+
+
+    private final Path pastaArquivos =
+            Paths.get("uploads");
+
+
+    public AnexoService(
+
+            AnexoRepository anexoRepository,
+
+            PostagemRepository postagemRepository,
+
+            TokenService tokenService
+
+    ) {
+
+        this.anexoRepository =
+                anexoRepository;
+
+        this.postagemRepository =
+                postagemRepository;
+
+        this.tokenService =
+                tokenService;
     }
-    private Anexo buscar(Long id) {
-        var a = anexos.findById(id).orElseThrow(() -> erro(NOT_FOUND, "Anexo não encontrado."));
-        if (a.getPostagem() == null) throw erro(CONFLICT, "Anexo sem postagem associada.");
-        posts.buscar(a.getPostagem().getId()); return a;
+
+
+    public Anexo criar(
+
+            MultipartFile arquivo,
+
+            Long idPostagem,
+
+            String authorizationHeader
+
+    ) {
+
+        tokenService
+                .validarAutorizacao(
+                        authorizationHeader
+                );
+
+
+        Postagem postagem =
+                postagemRepository
+                        .findById(idPostagem)
+                        .orElseThrow(
+                                () ->
+                                        new RuntimeException(
+                                                "Postagem não encontrada"
+                                        )
+                        );
+
+
+        if (arquivo.isEmpty()) {
+
+            throw new RuntimeException(
+                    "Arquivo vazio"
+            );
+        }
+
+
+        try {
+
+            Files.createDirectories(
+                    pastaArquivos
+            );
+
+
+            String nomeOriginal =
+                    arquivo.getOriginalFilename();
+
+
+            String nomeArquivo =
+                    UUID.randomUUID()
+                            + "_"
+                            + nomeOriginal;
+
+
+            Path caminho =
+                    pastaArquivos
+                            .resolve(
+                                    nomeArquivo
+                            );
+
+
+            Files.copy(
+
+                    arquivo
+                            .getInputStream(),
+
+                    caminho
+            );
+
+
+            Anexo anexo =
+                    new Anexo();
+
+
+            anexo.setPostagem(
+                    postagem
+            );
+
+
+            anexo.setNome(
+                    nomeOriginal
+            );
+
+
+            anexo.setUrlArquivo(
+                    caminho.toString()
+            );
+
+
+            anexo.setTamanhoArquivo(
+                    arquivo.getSize()
+            );
+
+
+            anexo.setTipoArquivo(
+                    arquivo.getContentType()
+            );
+
+
+            anexo.setDataUpload(
+                    LocalDateTime.now()
+            );
+
+
+            return anexoRepository
+                    .save(anexo);
+
+        } catch (IOException e) {
+
+            throw new RuntimeException(
+                    "Erro ao salvar arquivo",
+                    e
+            );
+        }
     }
-    @Transactional(readOnly = true) public AnexoResposta findByID(Long id) { return posts.anexo(buscar(id)); }
-    @Transactional(readOnly = true) public List<AnexoResposta> buscarPorPostagem(Long id) { posts.buscar(id); return anexos.findByPostagemId(id).stream().map(posts::anexo).toList(); }
-    @Transactional(readOnly = true) public Arquivo arquivo(Long id) { return arquivos.buscar(buscar(id).getArquivoId()); }
-    @Transactional public AnexoResposta editar(Long id, String nome) {
-        var a = buscar(id); posts.autor(a.getPostagem()); a.setNome(arquivos.nome(texto(nome, "o nome", 200))); return posts.anexo(anexos.save(a));
+
+
+    public Anexo findByID(
+
+            Long id,
+
+            String authorizationHeader
+
+    ) {
+
+        tokenService
+                .validarAutorizacao(
+                        authorizationHeader
+                );
+
+
+        return buscarPorId(id);
     }
-    @Transactional public void deletar(Long id) {
-        var a = buscar(id); posts.autor(a.getPostagem()); Long arquivo = a.getArquivoId();
-        anexos.delete(a); anexos.flush(); arquivos.remover(arquivo);
+
+
+    public List<Anexo> buscarPorPostagem(
+
+            Long idPostagem,
+
+            String authorizationHeader
+
+    ) {
+
+        tokenService
+                .validarAutorizacao(
+                        authorizationHeader
+                );
+
+
+        if (
+                !postagemRepository
+                        .existsById(
+                                idPostagem
+                        )
+        ) {
+
+            throw new RuntimeException(
+                    "Postagem não encontrada"
+            );
+        }
+
+
+        return anexoRepository
+                .findByPostagemId(
+                        idPostagem
+                );
+    }
+
+
+    public Anexo editar(
+
+            Long id,
+
+            Anexo dados,
+
+            String authorizationHeader
+
+    ) {
+
+        tokenService
+                .validarAutorizacao(
+                        authorizationHeader
+                );
+
+
+        Anexo anexo =
+                buscarPorId(id);
+
+
+        if (dados.getNome() != null) {
+
+            anexo.setNome(
+                    dados.getNome()
+            );
+        }
+
+
+        if (
+                dados.getUrlArquivo()
+                        != null
+        ) {
+
+            anexo.setUrlArquivo(
+                    dados.getUrlArquivo()
+            );
+        }
+
+
+        if (
+                dados.getTamanhoArquivo()
+                        != null
+        ) {
+
+            anexo.setTamanhoArquivo(
+                    dados.getTamanhoArquivo()
+            );
+        }
+
+
+        if (
+                dados.getTipoArquivo()
+                        != null
+        ) {
+
+            anexo.setTipoArquivo(
+                    dados.getTipoArquivo()
+            );
+        }
+
+
+        return anexoRepository
+                .save(anexo);
+    }
+
+
+    public void deletar(
+
+            Long id,
+
+            String authorizationHeader
+
+    ) {
+
+        tokenService
+                .validarAutorizacao(
+                        authorizationHeader
+                );
+
+
+        Anexo anexo =
+                buscarPorId(id);
+
+
+        anexoRepository
+                .delete(anexo);
+    }
+
+
+    private Anexo buscarPorId(Long id) {
+
+        return anexoRepository
+                .findById(id)
+                .orElseThrow(
+                        () ->
+                                new RuntimeException(
+                                        "Anexo não encontrado"
+                                )
+                );
     }
 }

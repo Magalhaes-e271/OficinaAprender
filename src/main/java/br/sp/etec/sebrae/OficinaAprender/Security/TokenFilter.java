@@ -1,37 +1,82 @@
 package br.sp.etec.sebrae.OficinaAprender.Security;
 
+import br.sp.etec.sebrae.OficinaAprender.Entity.Usuario.Usuario;
 import br.sp.etec.sebrae.OficinaAprender.Repository.Usuario.UsuarioRepository;
 import br.sp.etec.sebrae.OficinaAprender.Service.Token.TokenService;
-import jakarta.servlet.*;
-import jakarta.servlet.http.*;
-import lombok.RequiredArgsConstructor;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import java.io.IOException;
-import java.util.List;
+import java.util.Collections;
 
 @Component
-@RequiredArgsConstructor
 public class TokenFilter extends OncePerRequestFilter {
-    private final TokenService tokens;
-    private final UsuarioRepository usuarios;
+
+    private final TokenService tokenService;
+    private final UsuarioRepository usuarioRepository;
+
+    public TokenFilter(
+            TokenService tokenService,
+            UsuarioRepository usuarioRepository
+    ) {
+        this.tokenService = tokenService;
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.regionMatches(true, 0, "Bearer ", 0, 7)) {
-            var jwt = tokens.verificar(header.substring(7).trim());
-            if (jwt != null) {
-                Long id = jwt.getClaim("id").asLong();
-                Integer versao = jwt.getClaim("versao").asInt();
-                if (id != null && versao != null) usuarios.findById(id)
-                        .filter(u -> u.isAtivo() && u.isAcessoHabilitado() && u.getVersaoToken() == versao)
-                        .ifPresent(u -> SecurityContextHolder.getContext().setAuthentication(
-                                new UsernamePasswordAuthenticationToken(u, null, List.of())));
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        String authorizationHeader =
+                request.getHeader("Authorization");
+
+        // Se NÃO tem token, simplesmente continua.
+        if (authorizationHeader == null ||
+                !authorizationHeader.startsWith("Bearer ")) {
+
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token =
+                authorizationHeader.substring(7);
+
+        // valida o token
+        String email = tokenService.extrairEmail(token);
+
+        if (email != null) {
+
+            Usuario usuario = usuarioRepository
+                    .findByEmail(email)
+                    .orElse(null);
+
+            if (usuario != null) {
+
+                var authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                usuario,
+                                null,
+                                Collections.emptyList()
+                        );
+
+                SecurityContextHolder
+                        .getContext()
+                        .setAuthentication(authentication);
             }
         }
-        chain.doFilter(request, response);
+
+        filterChain.doFilter(request, response);
     }
+
+
 }

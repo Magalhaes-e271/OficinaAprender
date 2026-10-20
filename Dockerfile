@@ -16,9 +16,6 @@ WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar /app/app.jar
 
-ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=60.0 -XX:+ExitOnOutOfMemoryError -Djava.awt.headless=true"
-USER 10001
-
 EXPOSE 10000
 
 # Usa a porta fornecida pelo Render e aceita conexões externas.

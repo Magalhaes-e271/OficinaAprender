@@ -29,8 +29,6 @@ public class Anexo {
     private Long tamanhoArquivo;
 
     private String tipoArquivo;
-
-    private Long arquivoId;
     
     private LocalDateTime dataUpload;
 
