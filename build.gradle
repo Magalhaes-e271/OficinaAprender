@@ -1,11 +1,16 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '4.0.4'
+	id 'org.springframework.boot' version '4.0.8'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'br.sp.etec.sebrae'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
+
+// Correções de segurança posteriores ao BOM 4.0.8, mantendo as mesmas linhas.
+ext['jackson-bom.version'] = '3.1.8'
+ext['jackson-2-bom.version'] = '2.21.8'
+ext['tomcat.version'] = '11.0.27'
 
 java {
 	toolchain {
@@ -24,9 +29,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-flyway'
+	implementation 'org.flywaydb:flyway-database-postgresql'
+	implementation 'org.jsoup:jsoup:1.23.2'
 
-	implementation 'com.auth0:java-jwt:4.4.0'
-	implementation 'org.postgresql:postgresql:42.7.12'
+	implementation 'com.auth0:java-jwt:4.6.2'
+	implementation 'org.postgresql:postgresql:42.7.14'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
 	compileOnly 'org.projectlombok:lombok'
@@ -41,4 +49,21 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+    testLogging { events 'failed'; exceptionFormat 'full' }
+}
+
+springBoot { buildInfo() }
+
+tasks.register('listarDependenciasSeguranca') {
+    description = 'Exporta coordenadas das dependências de execução para consulta de vulnerabilidades.'
+    doLast {
+        def componentes = configurations.runtimeClasspath.incoming.resolutionResult.allComponents
+            .collect { it.id }.findAll { it instanceof org.gradle.api.artifacts.component.ModuleComponentIdentifier }
+            .collect { [name: "${it.group}:${it.module}".toString(), version: it.version] }
+            .sort { a, b -> a.name <=> b.name }
+        def destino = layout.buildDirectory.file('seguranca/dependencias.json').get().asFile
+        destino.parentFile.mkdirs()
+        destino.text = groovy.json.JsonOutput.prettyPrint(groovy.json.JsonOutput.toJson(componentes))
+        println "Manifesto de dependências gravado em build/seguranca/dependencias.json"
+    }
 }

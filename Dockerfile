@@ -16,7 +16,10 @@ WORKDIR /app
 
 COPY --from=build /app/build/libs/*.jar /app/app.jar
 
-EXPOSE 10000
+ENV JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=60.0 -XX:+ExitOnOutOfMemoryError -Djava.awt.headless=true"
+USER 10001
 
-# Usa a porta fornecida pelo Render e aceita conexões externas.
-CMD ["sh", "-c", "exec java -Dserver.port=${PORT:-10000} -Dserver.address=0.0.0.0 -jar /app/app.jar"]
+EXPOSE 8080
+
+# Usa PORT quando definido e aceita conexões do site e do aplicativo.
+CMD ["sh", "-c", "exec java -Dserver.port=${PORT:-8080} -Dserver.address=0.0.0.0 -jar /app/app.jar"]

@@ -1,45 +1,20 @@
 package br.sp.etec.sebrae.OficinaAprender.Controller.Postagem.Meta;
-
-import br.sp.etec.sebrae.OficinaAprender.Entity.Postagem.Meta.Meta;
+import br.sp.etec.sebrae.OficinaAprender.DTO.ApiDtos.*;
 import br.sp.etec.sebrae.OficinaAprender.Service.Postagem.Meta.MetaService;
-
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/meta")
+@RequiredArgsConstructor
 public class MetaController {
-
-    private final MetaService metaService;
-
-
-    public MetaController(
-            MetaService metaService
-    ) {
-
-        this.metaService =
-                metaService;
-    }
-
-
-    // CRIAR / SALVAR META
-    @PostMapping("/criar")
-    public ResponseEntity<?> criar(
-
-            @RequestBody Meta meta,
-
-            @RequestHeader(
-                    value = "Authorization",
-                    required = false
-            )
-            String authorizationHeader
-
-    ) {
-
-        return metaService.salvar(
-                meta,
-                authorizationHeader
-        );
-    }
+    private final MetaService service;
+    @GetMapping public List<MetaResposta> listar(@RequestParam Long idPaciente) { return service.listar(idPaciente); }
+    @GetMapping("/{id}") public MetaResposta buscar(@PathVariable Long id) { return service.detalhar(id); }
+    @PostMapping("/criar") @ResponseStatus(HttpStatus.CREATED)
+    public MetaResposta criar(@RequestParam Long idPaciente, @RequestBody MetaEntrada dto) { return service.criar(idPaciente, dto); }
+    @PatchMapping("/{id}") public MetaResposta editar(@PathVariable Long id, @RequestBody MetaEntrada dto) { return service.editar(id, dto); }
+    @PatchMapping("/{id}/conexoes") public List<MetaResposta> conectar(@PathVariable Long id, @RequestBody ConexoesEntrada dto) { return service.conectar(id, dto); }
+    @DeleteMapping("/{id}") @ResponseStatus(HttpStatus.NO_CONTENT) public void remover(@PathVariable Long id) { service.remover(id); }
 }

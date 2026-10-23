@@ -42,3 +42,5 @@ out/
 /uploads/
 ### Test ###
 *-test.*
+# Temporários de geração da chave de MFA
+.env.mfa-*
